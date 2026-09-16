@@ -1,0 +1,8 @@
+# Synthetic example only. IPs use RFC 5737 documentation ranges.
+# ASN values below are placeholders and are not intended to identify a real provider.
+IP	ASN	PREFIX	CC	REGISTRY	ALLOCATED	AS_NAME
+192.0.2.10	AS64500	192.0.2.0/24	ZZ	example	2026-01-01	EXAMPLE-NET-A
+192.0.2.11	AS64500	192.0.2.0/24	ZZ	example	2026-01-01	EXAMPLE-NET-A
+192.0.2.12	AS64500	192.0.2.0/24	ZZ	example	2026-01-01	EXAMPLE-NET-A
+198.51.100.24	AS64501	198.51.100.0/24	ZZ	example	2026-01-01	EXAMPLE-NET-B
+198.51.100.25	AS64501	198.51.100.0/24	ZZ	example	2026-01-01	EXAMPLE-NET-B

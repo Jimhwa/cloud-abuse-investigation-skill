@@ -1,0 +1,6 @@
+192.0.2.10 - - [16/Sep/2026:11:00:01 +0000] "GET /offers HTTP/1.1" 200 1842 "-" "ExampleAutomation/1.0"
+192.0.2.11 - - [16/Sep/2026:11:00:03 +0000] "GET /offers HTTP/1.1" 200 1842 "-" "ExampleAutomation/1.0"
+198.51.100.24 - - [16/Sep/2026:11:00:04 +0000] "GET /offers HTTP/1.1" 200 1842 "https://203.0.113.7/" "ExampleAutomation/1.0"
+192.0.2.10 - - [16/Sep/2026:11:00:08 +0000] "GET /api/catalog?limit=100 HTTP/1.1" 200 4210 "-" "ExampleAutomation/1.0"
+198.51.100.25 - - [16/Sep/2026:11:00:09 +0000] "GET /api/catalog?limit=100 HTTP/1.1" 200 4210 "-" "ExampleAutomation/1.0"
+192.0.2.12 - - [16/Sep/2026:11:00:12 +0000] "GET /.env HTTP/1.1" 404 153 "-" "ExampleAutomation/1.0"
