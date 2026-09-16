@@ -1,0 +1,45 @@
+cat > .gitignore <<'EOF'
+# macOS
+.DS_Store
+
+# Real incident evidence
+*.log
+*.pcap
+*.pcapng
+*.har
+*.tar.gz
+*.zip
+
+# Evidence output
+evidence/
+output/
+reports/
+
+# Sensitive generated evidence
+source-ips.txt
+source-ips-form.txt
+bgp-asn.txt
+checksums.txt
+
+# Secrets / environment
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Editors
+.vscode/
+.idea/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Allow intentionally sanitized example logs
+!examples/sample-access.log
+EOF

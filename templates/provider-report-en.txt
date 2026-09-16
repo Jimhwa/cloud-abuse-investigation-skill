@@ -1,0 +1,22 @@
+Subject: Abuse Report: Distributed Automated HTTP Traffic from <ASN / Provider>
+
+Hello <Provider> Security Team,
+
+I am reporting a cluster of suspicious automated HTTP requests observed on our web server between <START_TIME> and <END_TIME> <TIMEZONE>.
+
+Our logs identified <UNIQUE_IPS> unique source IP addresses and <REQUEST_COUNT> matching requests. The traffic exhibited highly consistent characteristics across rotating source addresses, including <AUTOMATION_INDICATORS>.
+
+BGP/ASN verification indicates:
+<ASN_DISTRIBUTION>
+
+Attached evidence includes:
+1. Unique source IP list
+2. Relevant access-log entries with timestamps
+3. BGP/ASN attribution results
+4. Statistical summary of the observed activity
+
+We are not asserting that <Provider> itself generated or directed this traffic. The submitted evidence establishes source IP addresses, timestamps, HTTP request characteristics, and BGP/ASN attribution. We would appreciate your security team investigating whether these addresses can be correlated internally with customer accounts, instances, NAT gateways, proxy infrastructure, workloads, or other common resources.
+
+Please let us know if additional timestamps or raw HTTP logs would assist your investigation.
+
+Thank you.
