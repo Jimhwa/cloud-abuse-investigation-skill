@@ -66,6 +66,30 @@ triggers:
 
 `公网源 IP -> 云实例/公网 NAT/EIP -> 租户账号 -> 实际操作者` 通常只有云厂商内部才能验证。
 
+### 4. 调查按行为聚类，举报再按云厂商拆分
+
+调查阶段优先按可复现的 behavior fingerprint / workflow 聚类，而不是先按云厂商分组。
+
+推荐顺序：
+
+```text
+原始日志
+-> 行为模板 / request sequence / Referer / protocol fingerprint
+-> 跨 IP / 跨 ASN 相关性
+-> confidence
+-> BGP/RDAP 归属
+-> 按 provider / ASN / prefix 拆分举报材料
+```
+
+同一云厂商或 ASN 只是基础设施上下文，不能单独证明属于同一 campaign。
+一个高置信行为 family 也可以跨多个 ASN / provider。
+
+举报时只把目标 provider 的 IP 放入该 provider 的 source-IP 字段；
+跨 provider 行为一致性只能作为 context，不能写成已证明同一租户、
+controller 或 operator。
+
+参见：`references/behavior-first-provider-reporting.md`。
+
 ## 输入
 
 至少需要以下之一：
@@ -130,6 +154,8 @@ grep -F "$UA" /var/log/nginx/access.log > /tmp/suspicious-automation.log
 6. **请求结构一致性**：Method、query 参数、header、响应状态高度一致。
 7. **ASN 集中度**：大量 IP 集中在同一或少量 ASN。
 8. **业务不合理性**：真实用户几乎不会产生的路径组合、频率或跨 IP 行为。
+9. **负样本 / full-browser 对照**：同 UA 但完整加载 CSS/JS/API、登录/导航等正常会话，应作为 detector regression negative control。
+10. **跨协议佐证**：HTTP sparse probe 与 SSH preauth、raw TLS、binary HTTP 等独立信号在同一 source 上重合时，相关性强于单纯 UA 相同。
 
 推荐定性分级：
 
@@ -280,6 +306,20 @@ awk '{print $1}' suspicious.log | sort -u | paste -sd';' - > source-ips-form.txt
 awk '{print $1}' suspicious.log | sort -u | awk 'NR%50==1{if(NR>1)print ""}{printf "%s%s", (NR%50==1?"":";"), $0} END{print ""}'
 ```
 
+## Cloudflare Provider Profile
+
+当源地址归属 Cloudflare / AS13335 时，先读取：
+
+`providers/cloudflare.md`
+
+特别注意：
+
+- AS13335 地址不一定是标准 Cloudflare CDN edge proxy；
+- Cloudflare 还使用其它产品 / service / egress 地址空间；
+- 应结合 exact source prefix、BGP/RDAP 和官方 IP 文档判断；
+- 举报材料必须保留精确 timestamp，便于 Cloudflare 内部关联 service / egress session / account；
+- 非 Cloudflare campaign peer 不应混入 Cloudflare source-IP 字段。
+
 ## 质量检查清单
 
 提交前逐项验证：
@@ -371,6 +411,28 @@ Skill 中只使用变量；任何具体事件的 IP 数量、请求数和 ASN �
 ### E. 举报正文
 
 根据平台语言生成中文或英文版本，并保持证据边界。
+
+## Detection / manual enforcement evidence boundary
+
+必须区分：
+
+```text
+原始请求证据
+自动 filter / jail Found
+自动 Ban
+人工复核
+人工 backfill ban
+实际 nft/iptables enforcement
+```
+
+人工执行 `banip`、UFW deny 或其它后补封禁，只能证明后续处置动作，
+不能反向证明该 IP 在原始请求发生时曾被自动 detector 命中。
+
+Fail2Ban 内部显示 banned 也不一定证明实际 firewall action 已正确落地。
+如需验证控制链路，应检查 registered action、nft/iptables rule、
+packet-path hook 和 unban cleanup，并使用 documentation-only synthetic IP。
+
+参见：`references/enforcement-evidence-boundary.md`。
 
 ## 与 Fail2Ban / 防御动作的边界
 

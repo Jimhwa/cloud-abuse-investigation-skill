@@ -24,9 +24,12 @@ cloud-abuse-investigation-skill/
 │   └── sample-asn.txt
 ├── providers/
 │   ├── tencent-cloud.md
+│   ├── cloudflare.md
 │   └── provider-template.md
 └── references/
-    └── sanitized-case-example.md
+    ├── sanitized-case-example.md
+    ├── behavior-first-provider-reporting.md
+    └── enforcement-evidence-boundary.md
 ```
 
 ## Workflow
@@ -59,6 +62,8 @@ Cloud / hosting provider abuse report
 - Generate an evidence bundle containing logs, unique IPs, form-ready IP fields, summaries, and SHA-256 checksums.
 - Produce neutral Chinese and English provider-report templates.
 - Support provider-specific profiles without hard-coding one incident or vendor into the core workflow.
+- Investigate by behavioral fingerprint first, then split validated evidence by provider/ASN for reporting.
+- Keep automatic detection, manual analyst backfill, and firewall enforcement as separate evidence layers.
 
 ## Quick start
 
@@ -142,11 +147,22 @@ Provider-specific reporting channels are stored separately from the core investi
 Currently included:
 
 - **Tencent Cloud** — Security Center work-order profile: [`providers/tencent-cloud.md`](providers/tencent-cloud.md)
-- **Provider template** — copy this when adding AWS, Alibaba Cloud, Azure, Google Cloud, Cloudflare, DigitalOcean, an ISP, or another hosting provider: [`providers/provider-template.md`](providers/provider-template.md)
+- **Cloudflare** — abuse-form, AS13335 attribution, service/egress nuance, and reporting guidance: [`providers/cloudflare.md`](providers/cloudflare.md)
+- **Provider template** — copy this when adding AWS, Alibaba Cloud, Azure, Google Cloud, DigitalOcean, an ISP, or another hosting provider: [`providers/provider-template.md`](providers/provider-template.md)
 
 The Tencent profile includes the Security Center work-order submission route supplied for this project. Provider console URLs and category IDs can change, so maintainers should verify them before live submission.
 
 Contributions adding other providers are welcome when they use official reporting channels, avoid embedding real incident evidence, and retain the attribution boundary described below.
+
+## Investigation methodology references
+
+- **Behavior-first, provider-second:** [`references/behavior-first-provider-reporting.md`](references/behavior-first-provider-reporting.md)
+- **Detection/enforcement evidence boundary:** [`references/enforcement-evidence-boundary.md`](references/enforcement-evidence-boundary.md)
+
+Provider attribution is a reporting dimension rather than the primary
+investigation clustering rule. Local bans/manual enforcement must not be
+presented as independent proof of malicious intent or historical automatic
+detection.
 
 ## Sanitized examples
 
